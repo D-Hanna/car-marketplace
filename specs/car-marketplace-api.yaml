@@ -1,0 +1,278 @@
+openapi: 3.0.3
+info:
+  title: Car Marketplace API
+  description: Contract-first REST API for the Car Marketplace platform proof-of-concept.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development backend server
+
+paths:
+  /api/v1/cars:
+    get:
+      summary: Retrieve a filtered list of cars
+      description: Returns cars matching the provided query filter criteria. If no filters are provided, returns all available cars.
+      operationId: listCars
+      parameters:
+        - name: make
+          in: query
+          required: false
+          description: Filter cars by make (case-insensitive partial or exact match)
+          schema:
+            type: string
+            example: Tesla
+        - name: maxPrice
+          in: query
+          required: false
+          description: Maximum car price filter (inclusive)
+          schema:
+            type: number
+            format: double
+            minimum: 0
+            example: 45000.00
+        - name: minYear
+          in: query
+          required: false
+          description: Minimum manufacturing year filter (inclusive)
+          schema:
+            type: integer
+            minimum: 1900
+            example: 2020
+      responses:
+        '200':
+          description: Successfully retrieved list of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        '400':
+          description: Invalid query parameters provided
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+    post:
+      summary: Register a new car in the marketplace
+      description: Validates and saves a new car listing.
+      operationId: createCar
+      requestBody:
+        required: true
+        description: Car attributes for creation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarCreateRequest'
+      responses:
+        '201':
+          description: Car created successfully
+          headers:
+            Location:
+              description: URI of the newly created car resource
+              schema:
+                type: string
+                example: /api/v1/cars/550e8400-e29b-41d4-a716-446655440000
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          description: Invalid request payload or validation errors
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /api/v1/cars/{id}:
+    get:
+      summary: Get car details by ID
+      description: Fetches a single car by its unique UUID.
+      operationId: getCarById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique UUID identifier of the car
+          schema:
+            type: string
+            format: uuid
+            example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: Car found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '400':
+          description: Invalid UUID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '404':
+          description: Car not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+components:
+  schemas:
+    FuelType:
+      type: string
+      description: Type of fuel / powertrain used by the vehicle
+      enum:
+        - PETROL
+        - DIESEL
+        - ELECTRIC
+        - HYBRID
+        - PLUGIN_HYBRID
+      example: ELECTRIC
+
+    Car:
+      type: object
+      description: Full car representation returned by the API
+      required:
+        - id
+        - make
+        - model
+        - year
+        - mileage
+        - price
+        - fuelType
+        - imageUrl
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique car identifier
+          example: 550e8400-e29b-41d4-a716-446655440000
+        make:
+          type: string
+          description: Brand or manufacturer of the car
+          example: Tesla
+        model:
+          type: string
+          description: Model name of the car
+          example: Model 3
+        year:
+          type: integer
+          description: Manufacturing year
+          example: 2023
+        mileage:
+          type: integer
+          description: Odometer mileage in kilometers
+          example: 12500
+        price:
+          type: number
+          format: double
+          description: Listing price in USD/EUR
+          example: 38999.99
+        fuelType:
+          $ref: '#/components/schemas/FuelType'
+        imageUrl:
+          type: string
+          format: uri
+          description: Publicly accessible URL for the car image
+          example: https://images.unsplash.com/photo-1560958089-b8a1929cea89
+
+    CarCreateRequest:
+      type: object
+      description: Payload required to create a new car
+      required:
+        - make
+        - model
+        - year
+        - mileage
+        - price
+        - fuelType
+        - imageUrl
+      properties:
+        make:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Brand or manufacturer of the car
+          example: Tesla
+        model:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Model name of the car
+          example: Model 3
+        year:
+          type: integer
+          minimum: 1900
+          maximum: 2030
+          description: Manufacturing year
+          example: 2023
+        mileage:
+          type: integer
+          minimum: 0
+          description: Odometer mileage in kilometers
+          example: 12500
+        price:
+          type: number
+          format: double
+          minimum: 0.01
+          description: Listing price in USD/EUR
+          example: 38999.99
+        fuelType:
+          $ref: '#/components/schemas/FuelType'
+        imageUrl:
+          type: string
+          minLength: 1
+          description: Publicly accessible image URL
+          example: https://images.unsplash.com/photo-1560958089-b8a1929cea89
+
+    InvalidParam:
+      type: object
+      description: Specific validation violation details
+      properties:
+        name:
+          type: string
+          description: Name of the invalid field or parameter
+          example: price
+        reason:
+          type: string
+          description: Description of the validation failure
+          example: must be greater than 0
+
+    ProblemDetail:
+      type: object
+      description: RFC 7807 Problem Details for HTTP APIs
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          description: A URI reference that identifies the problem type
+          example: about:blank
+        title:
+          type: string
+          description: A short, human-readable summary of the problem type
+          example: Bad Request
+        status:
+          type: integer
+          description: The HTTP status code generated by the origin server
+          example: 400
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem
+          example: Validation failed for request body
+        instance:
+          type: string
+          format: uri
+          description: A URI reference that identifies the specific occurrence of the problem
+          example: /api/v1/cars
+        invalidParams:
+          type: array
+          description: Detailed list of parameter validation violations if applicable
+          items:
+            $ref: '#/components/schemas/InvalidParam'
