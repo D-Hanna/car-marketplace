@@ -16,7 +16,6 @@ export function CarCard({ car, onSelect }) {
 
   return (
     <div
-<<<<<<< HEAD
       onClick={handleCardClick}
       className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300 flex flex-col cursor-pointer"
     >
