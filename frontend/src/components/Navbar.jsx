@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Car, Plus, Sparkles } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
@@ -7,8 +8,8 @@ export function Navbar({ onOpenAddCar, carCount = 0, isLoading = false }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo & Branding */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/25 ring-2 ring-indigo-500/20">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/25 ring-2 ring-indigo-500/20 group-hover:scale-105 transition-transform">
               <Car className="w-6 h-6" />
             </div>
             <div>
@@ -24,7 +25,7 @@ export function Navbar({ onOpenAddCar, carCount = 0, isLoading = false }) {
                 Premium verified car marketplace
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* Right Section: Theme toggle, Stats badge & Action button */}
           <div className="flex items-center gap-3 sm:gap-4">
