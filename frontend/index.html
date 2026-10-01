@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AutoMarket - Car Marketplace</title>
     <meta name="description" content="Discover, buy and list premium verified vehicles with AutoMarket." />
+    <script>
+      (function() {
+        try {
+          var storedTheme = localStorage.getItem('automarket_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = storedTheme === 'dark' || ((!storedTheme || storedTheme === 'system') && prefersDark);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

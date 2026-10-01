@@ -83,11 +83,11 @@ export function CarDetailModal({ carId, initialCar = null, onClose, onShowToast 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="relative bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200/80 my-8 animate-in zoom-in-95 duration-200"
+        className="relative bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200/80 dark:border-slate-800 my-8 animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -101,16 +101,16 @@ export function CarDetailModal({ carId, initialCar = null, onClose, onShowToast 
         </button>
 
         {loading && !car ? (
-          <div className="p-16 flex flex-col items-center justify-center text-slate-500">
-            <Loader2 className="w-8 h-8 animate-spin text-indigo-600 mb-3" />
+          <div className="p-16 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
+            <Loader2 className="w-8 h-8 animate-spin text-indigo-600 dark:text-indigo-400 mb-3" />
             <p className="text-sm font-medium">Fetching vehicle details...</p>
           </div>
         ) : error && !car ? (
           <div className="p-8 text-center">
-            <p className="text-rose-600 font-medium mb-4">{error}</p>
+            <p className="text-rose-600 dark:text-rose-400 font-medium mb-4">{error}</p>
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl"
+              className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl cursor-pointer"
             >
               Close
             </button>
@@ -120,8 +120,8 @@ export function CarDetailModal({ carId, initialCar = null, onClose, onShowToast 
             {/* Hero Image */}
             <div className="relative aspect-[16/9] w-full bg-slate-900">
               {imgError || !car.imageUrl ? (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-slate-800 text-slate-400 p-6">
-                  <CarIcon className="w-16 h-16 text-slate-600 mb-3" />
+                <div className="w-full h-full flex flex-col items-center justify-center bg-slate-800 dark:bg-slate-950 text-slate-400 p-6">
+                  <CarIcon className="w-16 h-16 text-slate-600 dark:text-slate-500 mb-3" />
                   <span className="text-base font-semibold text-slate-300">
                     {car.make} {car.model}
                   </span>
@@ -147,59 +147,59 @@ export function CarDetailModal({ carId, initialCar = null, onClose, onShowToast 
             {/* Modal Body */}
             <div className="p-6 sm:p-8">
               {/* Header Title & Price */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-6 border-b border-slate-100">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
+                  <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
                     {car.make}
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
                     {car.model}
                   </h2>
                 </div>
                 <div className="text-left sm:text-right">
-                  <span className="text-xs text-slate-400 block font-medium">Listing Price</span>
-                  <span className="text-3xl font-black text-indigo-600 tracking-tight">
+                  <span className="text-xs text-slate-400 dark:text-slate-500 block font-medium">Listing Price</span>
+                  <span className="text-3xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight">
                     {formatPrice(car.price)}
                   </span>
                 </div>
               </div>
 
               {/* Specs Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-6 border-b border-slate-100">
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide block mb-1">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-6 border-b border-slate-100 dark:border-slate-800">
+                <div className="bg-slate-50 dark:bg-slate-800/80 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80">
+                  <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide block mb-1">
                     Year
                   </span>
-                  <div className="flex items-center gap-1.5 text-slate-900 font-bold text-base">
-                    <Calendar className="w-4 h-4 text-indigo-500" />
+                  <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-bold text-base">
+                    <Calendar className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                     <span>{car.year}</span>
                   </div>
                 </div>
 
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide block mb-1">
+                <div className="bg-slate-50 dark:bg-slate-800/80 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80">
+                  <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide block mb-1">
                     Mileage
                   </span>
-                  <div className="flex items-center gap-1.5 text-slate-900 font-bold text-base">
-                    <Gauge className="w-4 h-4 text-indigo-500" />
+                  <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-bold text-base">
+                    <Gauge className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                     <span>{formatMileage(car.mileage)}</span>
                   </div>
                 </div>
 
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide block mb-1">
+                <div className="bg-slate-50 dark:bg-slate-800/80 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80">
+                  <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide block mb-1">
                     Powertrain
                   </span>
-                  <div className="flex items-center gap-1.5 text-slate-900 font-bold text-base capitalize">
+                  <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-bold text-base capitalize">
                     <span>{car.fuelType?.replace('_', ' ').toLowerCase()}</span>
                   </div>
                 </div>
 
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide block mb-1">
+                <div className="bg-slate-50 dark:bg-slate-800/80 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80">
+                  <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide block mb-1">
                     Status
                   </span>
-                  <div className="flex items-center gap-1.5 text-emerald-600 font-bold text-sm">
+                  <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold text-sm">
                     <ShieldCheck className="w-4 h-4" />
                     <span>Verified</span>
                   </div>
@@ -207,18 +207,18 @@ export function CarDetailModal({ carId, initialCar = null, onClose, onShowToast 
               </div>
 
               {/* UUID ID section */}
-              <div className="flex items-center justify-between text-xs text-slate-400 py-3 px-3 bg-slate-50 rounded-xl my-4 border border-slate-100">
+              <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 py-3 px-3 bg-slate-50 dark:bg-slate-800/80 rounded-xl my-4 border border-slate-100 dark:border-slate-700/80">
                 <div className="truncate pr-2">
-                  <span className="font-semibold text-slate-500">Listing ID:</span>{' '}
-                  <span className="font-mono text-slate-600">{car.id}</span>
+                  <span className="font-semibold text-slate-500 dark:text-slate-400">Listing ID:</span>{' '}
+                  <span className="font-mono text-slate-600 dark:text-slate-300">{car.id}</span>
                 </div>
                 <button
                   type="button"
                   onClick={handleCopyId}
-                  className="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-800 font-medium shrink-0 cursor-pointer"
+                  className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium shrink-0 cursor-pointer"
                   title="Copy Car ID"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
@@ -236,7 +236,7 @@ export function CarDetailModal({ carId, initialCar = null, onClose, onShowToast 
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-5 py-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition-colors cursor-pointer"
+                  className="px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-sm transition-colors cursor-pointer"
                 >
                   Close
                 </button>
