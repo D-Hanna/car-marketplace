@@ -43,20 +43,20 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 mb-8">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 sm:p-5 mb-8 transition-colors">
       {/* Top Filter Bar Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-indigo-600" />
-          <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
+          <Filter className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+          <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
             Filter & Search Catalog
           </h2>
           {activeCount > 0 ? (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300">
               {activeCount} active
             </span>
           ) : (
-            <span className="text-xs text-slate-400 font-normal">
+            <span className="text-xs text-slate-400 dark:text-slate-500 font-normal">
               ({totalMatches} available)
             </span>
           )}
@@ -66,7 +66,7 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
           <button
             type="button"
             onClick={onReset}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer py-1 px-2 rounded-lg hover:bg-slate-50"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-pointer py-1 px-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset all filters</span>
@@ -78,11 +78,11 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4">
         {/* Make Search (takes 5 cols) */}
         <div className="md:col-span-5 relative">
-          <label htmlFor="make-search" className="block text-xs font-medium text-slate-600 mb-1">
+          <label htmlFor="make-search" className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">
             Search Make / Brand
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <Search className="w-4 h-4" />
             </div>
             <input
@@ -91,13 +91,13 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
               value={filters.make || ''}
               onChange={handleMakeChange}
               placeholder="e.g. Tesla, BMW, Porsche..."
-              className="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all"
+              className="w-full pl-9 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
             />
             {filters.make && (
               <button
                 type="button"
                 onClick={clearMake}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer"
                 aria-label="Clear make filter"
               >
                 <X className="w-4 h-4" />
@@ -108,18 +108,18 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
 
         {/* Max Price Filter (takes 4 cols) */}
         <div className="md:col-span-4">
-          <label htmlFor="max-price-select" className="block text-xs font-medium text-slate-600 mb-1">
+          <label htmlFor="max-price-select" className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">
             Max Price ($ USD)
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <DollarSign className="w-4 h-4" />
             </div>
             <select
               id="max-price-select"
               value={filters.maxPrice || ''}
               onChange={(e) => handleMaxPriceChange(e.target.value)}
-              className="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all cursor-pointer appearance-none"
+              className="w-full pl-9 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 transition-all cursor-pointer appearance-none"
             >
               {PRICE_PRESETS.map((preset) => (
                 <option key={preset.label} value={preset.value}>
@@ -127,7 +127,7 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
                 </option>
               ))}
             </select>
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
               </svg>
@@ -137,18 +137,18 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
 
         {/* Min Year Filter (takes 3 cols) */}
         <div className="md:col-span-3">
-          <label htmlFor="min-year-select" className="block text-xs font-medium text-slate-600 mb-1">
+          <label htmlFor="min-year-select" className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">
             Min Year
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <Calendar className="w-4 h-4" />
             </div>
             <select
               id="min-year-select"
               value={filters.minYear || ''}
               onChange={(e) => handleMinYearChange(e.target.value)}
-              className="w-full pl-9 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all cursor-pointer appearance-none"
+              className="w-full pl-9 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 transition-all cursor-pointer appearance-none"
             >
               {YEAR_PRESETS.map((preset) => (
                 <option key={preset.label} value={preset.value}>
@@ -156,7 +156,7 @@ export function FilterBar({ filters, onChange, onReset, totalMatches = 0 }) {
                 </option>
               ))}
             </select>
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
               </svg>

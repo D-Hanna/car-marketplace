@@ -134,7 +134,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-200">
       {/* Top Navbar */}
       <Navbar
         onOpenAddCar={() => setIsAddModalOpen(true)}
@@ -144,17 +144,17 @@ function App() {
 
       {/* Demo / Offline notice if backend is not running */}
       {isDemoMode && (
-        <div className="bg-amber-500/10 border-b border-amber-500/20 py-2.5 px-4 text-xs text-amber-800 backdrop-blur-sm">
+        <div className="bg-amber-500/10 dark:bg-amber-950/40 border-b border-amber-500/20 dark:border-amber-500/30 py-2.5 px-4 text-xs text-amber-800 dark:text-amber-300 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Info className="w-4 h-4 text-amber-600 shrink-0" />
+              <Info className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
               <span>
                 <strong>Demo Mode Active:</strong> Spring Boot backend (<code>http://localhost:8080</code>) is starting or offline. Displaying local verified catalog samples.
               </span>
             </div>
             <button
               onClick={() => loadCars(filters)}
-              className="text-indigo-600 hover:text-indigo-800 font-semibold underline text-xs cursor-pointer ml-auto"
+              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-semibold underline text-xs cursor-pointer ml-auto"
             >
               Retry Backend Connection
             </button>
@@ -178,10 +178,10 @@ function App() {
         {/* Catalog Section Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold text-slate-900">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Vehicle Inventory
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Showing {cars.length} verified {cars.length === 1 ? 'vehicle' : 'vehicles'}
             </p>
           </div>
@@ -189,7 +189,7 @@ function App() {
           <button
             type="button"
             onClick={() => setIsAddModalOpen(true)}
-            className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 cursor-pointer"
+            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1 cursor-pointer"
           >
             <span>+ Add new listing</span>
           </button>
@@ -207,15 +207,15 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200/80 bg-white py-8 text-xs text-slate-500">
+      <footer className="mt-auto border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 text-xs text-slate-500 dark:text-slate-400">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">AutoMarket</span>
+            <span className="font-bold text-slate-800 dark:text-slate-200">AutoMarket</span>
             <span>•</span>
             <span>CarSphere Marketplace Platform</span>
           </div>
 
-          <div className="flex items-center gap-1 text-slate-400">
+          <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500">
             <span>Built strictly to OpenAPI 3.0 specification</span>
           </div>
         </div>

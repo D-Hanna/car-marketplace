@@ -153,7 +153,7 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
     <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
       {/* General Error Banner */}
       {generalError && (
-        <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-2.5 text-rose-700 text-xs">
+        <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 flex items-start gap-2.5 text-rose-700 dark:text-rose-300 text-xs">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <div>
             <p className="font-semibold">Unable to submit listing</p>
@@ -165,8 +165,8 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
       {/* Quick Preset Selector */}
       <div>
         <div className="flex items-center gap-1.5 mb-2.5">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-          <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
             Quick-Pick Sample Vehicles
           </span>
         </div>
@@ -178,8 +178,8 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
               onClick={() => handleSelectSample(sample)}
               className={`text-left p-2 rounded-xl border text-xs transition-all flex items-center gap-2 cursor-pointer ${
                 formData.imageUrl === sample.url
-                  ? 'border-indigo-600 bg-indigo-50/80 text-indigo-900 shadow-xs'
-                  : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700'
+                  ? 'border-indigo-600 bg-indigo-50/80 dark:bg-indigo-950/60 text-indigo-900 dark:text-indigo-200 shadow-xs'
+                  : 'border-slate-200 dark:border-slate-700/80 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
               }`}
             >
               <img
@@ -189,7 +189,7 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
               />
               <div className="truncate">
                 <p className="font-semibold truncate">{sample.make} {sample.model}</p>
-                <p className="text-[10px] text-slate-500 capitalize">{sample.fuelType.toLowerCase()}</p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 capitalize">{sample.fuelType.toLowerCase()}</p>
               </div>
             </button>
           ))}
@@ -199,7 +199,7 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
       {/* Make & Model */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="make" className="block text-xs font-semibold text-slate-700 mb-1">
+          <label htmlFor="make" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
             Make / Manufacturer <span className="text-rose-500">*</span>
           </label>
           <input
@@ -209,19 +209,19 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
             placeholder="e.g. Tesla, BMW, Porsche"
             value={formData.make}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 ${
+            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 ${
               errors.make
-                ? 'border-rose-400 bg-rose-50/30 focus:ring-rose-500/20'
-                : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 focus:bg-white'
+                ? 'border-rose-400 dark:border-rose-500 bg-rose-50/30 dark:bg-rose-950/30 focus:ring-rose-500/20'
+                : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800'
             }`}
           />
           {errors.make && (
-            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.make}</p>
+            <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 font-medium">{errors.make}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="model" className="block text-xs font-semibold text-slate-700 mb-1">
+          <label htmlFor="model" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
             Model Name <span className="text-rose-500">*</span>
           </label>
           <input
@@ -231,14 +231,14 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
             placeholder="e.g. Model 3, M4 Competition"
             value={formData.model}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 ${
+            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 ${
               errors.model
-                ? 'border-rose-400 bg-rose-50/30 focus:ring-rose-500/20'
-                : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 focus:bg-white'
+                ? 'border-rose-400 dark:border-rose-500 bg-rose-50/30 dark:bg-rose-950/30 focus:ring-rose-500/20'
+                : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-850'
             }`}
           />
           {errors.model && (
-            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.model}</p>
+            <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 font-medium">{errors.model}</p>
           )}
         </div>
       </div>
@@ -246,7 +246,7 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
       {/* Year, Mileage, Price */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="year" className="block text-xs font-semibold text-slate-700 mb-1">
+          <label htmlFor="year" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
             Year <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
@@ -259,20 +259,20 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
               placeholder="2023"
               value={formData.year}
               onChange={handleChange}
-              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 ${
+              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.year
-                  ? 'border-rose-400 bg-rose-50/30 focus:ring-rose-500/20'
-                  : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 focus:bg-white'
+                  ? 'border-rose-400 dark:border-rose-500 bg-rose-50/30 dark:bg-rose-950/30 focus:ring-rose-500/20'
+                  : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800'
               }`}
             />
           </div>
           {errors.year && (
-            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.year}</p>
+            <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 font-medium">{errors.year}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="mileage" className="block text-xs font-semibold text-slate-700 mb-1">
+          <label htmlFor="mileage" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
             Mileage (km) <span className="text-rose-500">*</span>
           </label>
           <input
@@ -283,19 +283,19 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
             placeholder="15000"
             value={formData.mileage}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 ${
+            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 ${
               errors.mileage
-                ? 'border-rose-400 bg-rose-50/30 focus:ring-rose-500/20'
-                : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 focus:bg-white'
+                ? 'border-rose-400 dark:border-rose-500 bg-rose-50/30 dark:bg-rose-950/30 focus:ring-rose-500/20'
+                : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800'
             }`}
           />
           {errors.mileage && (
-            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.mileage}</p>
+            <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 font-medium">{errors.mileage}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="price" className="block text-xs font-semibold text-slate-700 mb-1">
+          <label htmlFor="price" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
             Price ($ USD) <span className="text-rose-500">*</span>
           </label>
           <input
@@ -307,21 +307,21 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
             placeholder="42500"
             value={formData.price}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 ${
+            className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 ${
               errors.price
-                ? 'border-rose-400 bg-rose-50/30 focus:ring-rose-500/20'
-                : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 focus:bg-white'
+                ? 'border-rose-400 dark:border-rose-500 bg-rose-50/30 dark:bg-rose-950/30 focus:ring-rose-500/20'
+                : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800'
             }`}
           />
           {errors.price && (
-            <p className="text-xs text-rose-500 mt-1 font-medium">{errors.price}</p>
+            <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 font-medium">{errors.price}</p>
           )}
         </div>
       </div>
 
       {/* Fuel Type */}
       <div>
-        <label htmlFor="fuelType" className="block text-xs font-semibold text-slate-700 mb-1">
+        <label htmlFor="fuelType" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
           Fuel / Powertrain Type <span className="text-rose-500">*</span>
         </label>
         <select
@@ -329,7 +329,7 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
           name="fuelType"
           value={formData.fuelType}
           onChange={handleChange}
-          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white text-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
+          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer"
         >
           {FUEL_TYPES.map((type) => (
             <option key={type.value} value={type.value}>
@@ -338,13 +338,13 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
           ))}
         </select>
         {errors.fuelType && (
-          <p className="text-xs text-rose-500 mt-1 font-medium">{errors.fuelType}</p>
+          <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 font-medium">{errors.fuelType}</p>
         )}
       </div>
 
       {/* Image URL & Live Preview */}
       <div>
-        <label htmlFor="imageUrl" className="block text-xs font-semibold text-slate-700 mb-1">
+        <label htmlFor="imageUrl" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
           Image URL <span className="text-rose-500">*</span>
         </label>
         <div className="flex gap-3 items-start">
@@ -356,19 +356,19 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
               placeholder="https://images.unsplash.com/photo-..."
               value={formData.imageUrl}
               onChange={handleChange}
-              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 ${
+              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.imageUrl
-                  ? 'border-rose-400 bg-rose-50/30 focus:ring-rose-500/20'
-                  : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 focus:bg-white'
+                  ? 'border-rose-400 dark:border-rose-500 bg-rose-50/30 dark:bg-rose-950/30 focus:ring-rose-500/20'
+                  : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/20 bg-slate-50/50 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800'
               }`}
             />
             {errors.imageUrl && (
-              <p className="text-xs text-rose-500 mt-1 font-medium">{errors.imageUrl}</p>
+              <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 font-medium">{errors.imageUrl}</p>
             )}
           </div>
 
           {/* Preview Thumbnail */}
-          <div className="w-14 h-11 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
+          <div className="w-14 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-hidden shrink-0 flex items-center justify-center">
             {formData.imageUrl && !previewError ? (
               <img
                 src={formData.imageUrl}
@@ -377,19 +377,19 @@ function AddCarForm({ onClose, onCarCreated, onShowToast }) {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <ImageIcon className="w-5 h-5 text-slate-400" />
+              <ImageIcon className="w-5 h-5 text-slate-400 dark:text-slate-500" />
             )}
           </div>
         </div>
       </div>
 
       {/* Modal Actions */}
-      <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+      <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-3">
         <button
           type="button"
           onClick={onClose}
           disabled={isSubmitting}
-          className="px-5 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition-colors cursor-pointer disabled:opacity-50"
+          className="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-sm transition-colors cursor-pointer disabled:opacity-50"
         >
           Cancel
         </button>
@@ -432,25 +432,25 @@ export function AddCarModal({ isOpen, onClose, onCarCreated, onShowToast }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="relative bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200/90 my-8 overflow-hidden animate-in zoom-in-95 duration-200"
+        className="relative bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200/90 dark:border-slate-800 my-8 overflow-hidden animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 sm:px-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <div className="px-6 py-5 sm:px-8 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
           <div>
-            <h2 className="text-xl font-bold text-slate-900">List a New Vehicle</h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">List a New Vehicle</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Fill in the vehicle specifications to publish your listing instantly.
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-4 h-4" />
