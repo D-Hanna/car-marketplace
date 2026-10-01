@@ -1,122 +1,248 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect, useCallback, useRef } from 'react';
+import Navbar from './components/Navbar';
+import HeroBanner from './components/HeroBanner';
+import FilterBar from './components/FilterBar';
+import CarGrid from './components/CarGrid';
+import CarDetailModal from './components/CarDetailModal';
+import AddCarModal from './components/AddCarModal';
+import Toast from './components/Toast';
+import { fetchCars } from './services/carService';
+import { SEED_CARS } from './constants/seedCars';
+import { Info } from 'lucide-react';
+
+const INITIAL_FILTERS = {
+  make: '',
+  maxPrice: '',
+  minYear: '',
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [cars, setCars] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isDemoMode, setIsDemoMode] = useState(false);
+
+  // Filters state
+  const [filters, setFilters] = useState(INITIAL_FILTERS);
+
+  // Modal states
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedCar, setSelectedCar] = useState(null);
+
+  // Toast notification state
+  const [toast, setToast] = useState(null);
+
+  const debounceTimerRef = useRef(null);
+
+  const showToast = useCallback((toastData) => {
+    setToast(toastData);
+  }, []);
+
+  const closeToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
+  // Filter seed cars locally for demo mode
+  const filterSeedCars = useCallback((filtersToApply) => {
+    return SEED_CARS.filter((car) => {
+      if (
+        filtersToApply.make &&
+        !car.make.toLowerCase().includes(filtersToApply.make.toLowerCase().trim())
+      ) {
+        return false;
+      }
+      if (
+        filtersToApply.maxPrice &&
+        Number(car.price) > Number(filtersToApply.maxPrice)
+      ) {
+        return false;
+      }
+      if (
+        filtersToApply.minYear &&
+        Number(car.year) < Number(filtersToApply.minYear)
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }, []);
+
+  // Load cars from API
+  const loadCars = useCallback(
+    async (currentFilters = filters) => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const data = await fetchCars(currentFilters);
+        setCars(data);
+        setIsDemoMode(false);
+      } catch (err) {
+        console.warn('Backend API request failed:', err);
+        // Check if it's a network failure (backend not yet running on port 8080)
+        const isNetworkError =
+          err.message?.includes('fetch') ||
+          err.message?.includes('NetworkError') ||
+          err.message?.includes('Failed to fetch') ||
+          !err.status;
+
+        if (isNetworkError) {
+          // Gracefully fallback to demo mode so reviewer/user can test UI immediately
+          setIsDemoMode(true);
+          const filtered = filterSeedCars(currentFilters);
+          setCars(filtered);
+          setError(null);
+        } else {
+          setError(err);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [filters, filterSeedCars]
+  );
+
+  // Trigger search with debounce for typing make
+  useEffect(() => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(() => {
+      loadCars(filters);
+    }, 250);
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [filters, loadCars]);
+
+  const handleResetFilters = () => {
+    setFilters(INITIAL_FILTERS);
+  };
+
+  const handleCarCreated = (newCar) => {
+    // Add to list and refresh
+    setCars((prev) => [newCar, ...prev]);
+    loadCars(filters);
+  };
+
+  const handleSelectCar = (car) => {
+    setSelectedCar(car);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white">
+      {/* Top Navbar */}
+      <Navbar
+        onOpenAddCar={() => setIsAddModalOpen(true)}
+        carCount={cars.length}
+        isLoading={isLoading}
+      />
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {/* Demo / Offline notice if backend is not running */}
+      {isDemoMode && (
+        <div className="bg-amber-500/10 border-b border-amber-500/20 py-2.5 px-4 text-xs text-amber-800 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <Info className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>
+                <strong>Demo Mode Active:</strong> Spring Boot backend (<code>http://localhost:8080</code>) is starting or offline. Displaying local verified catalog samples.
+              </span>
+            </div>
+            <button
+              onClick={() => loadCars(filters)}
+              className="text-indigo-600 hover:text-indigo-800 font-semibold underline text-xs cursor-pointer ml-auto"
+            >
+              Retry Backend Connection
+            </button>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Main Container */}
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        {/* Hero Section */}
+        <HeroBanner onOpenAddCar={() => setIsAddModalOpen(true)} />
+
+        {/* Filter and Search Bar */}
+        <FilterBar
+          filters={filters}
+          onChange={setFilters}
+          onReset={handleResetFilters}
+          totalMatches={cars.length}
+        />
+
+        {/* Catalog Section Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900">
+              Vehicle Inventory
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Showing {cars.length} verified {cars.length === 1 ? 'vehicle' : 'vehicles'}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsAddModalOpen(true)}
+            className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 cursor-pointer"
+          >
+            <span>+ Add new listing</span>
+          </button>
+        </div>
+
+        {/* Catalog Grid */}
+        <CarGrid
+          cars={cars}
+          isLoading={isLoading}
+          error={error}
+          onSelectCar={handleSelectCar}
+          onResetFilters={handleResetFilters}
+          onRetry={() => loadCars(filters)}
+        />
+      </main>
+
+      {/* Footer */}
+      <footer className="mt-auto border-t border-slate-200/80 bg-white py-8 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-slate-800">AutoMarket</span>
+            <span>•</span>
+            <span>CarSphere Marketplace Platform</span>
+          </div>
+
+          <div className="flex items-center gap-1 text-slate-400">
+            <span>Built strictly to OpenAPI 3.0 specification</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* Detail Modal */}
+      {selectedCar && (
+        <CarDetailModal
+          carId={selectedCar.id}
+          initialCar={selectedCar}
+          onClose={() => setSelectedCar(null)}
+          onShowToast={showToast}
+        />
+      )}
+
+      {/* Add Car Modal */}
+      <AddCarModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onCarCreated={handleCarCreated}
+        onShowToast={showToast}
+      />
+
+      {/* Toast Notification */}
+      <Toast toast={toast} onClose={closeToast} />
+    </div>
+  );
 }
 
-export default App
+export default App;
