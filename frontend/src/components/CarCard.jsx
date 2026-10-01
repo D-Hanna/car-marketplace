@@ -1,14 +1,22 @@
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Calendar, Gauge, ArrowRight, Car as CarIcon } from 'lucide-react';
 import FuelBadge from './FuelBadge';
 import { formatPrice, formatMileage } from '../utils/formatters';
 
 export function CarCard({ car, onSelect }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [imgError, setImgError] = useState(false);
+
+  const handleCardClick = () => {
+    onSelect?.(car);
+    navigate(`/cars/${car.id}`, { state: { fromSearch: location.search } });
+  };
 
   return (
     <div
-      onClick={() => onSelect(car)}
+      onClick={handleCardClick}
       className="group bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 flex flex-col cursor-pointer"
     >
       {/* Image container */}
@@ -81,7 +89,7 @@ export function CarCard({ car, onSelect }) {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              onSelect(car);
+              handleCardClick();
             }}
             className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-700 transition-all cursor-pointer group-hover:translate-x-0.5"
           >
